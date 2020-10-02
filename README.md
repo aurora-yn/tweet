@@ -35,6 +35,18 @@ const dbTweets = await dbService.collection("tweets").get();
 dbTweets.forEach((document) => console.log(document.data()));
 ```
 
+- firebase.collection("collection").onSnapshot((snapshot => {( ... )}))
+Used this under *useEffect*
+```
+dbService.collection("tweets").onSnapshot((snapshot) => {
+  const tweetArray = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+setTweets(tweetArray);
+```
+
+
 # React-dom-router
 - **Redirect**
 - **useHistory**s
