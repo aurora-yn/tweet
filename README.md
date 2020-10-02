@@ -27,9 +27,17 @@ let provider = new firebase.auth.GoogleAuthProvider();
 firebase.auth().signInWithPopup(provider)
 ```
 
+- firebase.collection("collection").get()
+This get retuen **QuerySnapShot** which has docs, empty, metadata, query, size as properties.
+For method, it has docChanges, forEach, isEqual.
+```
+const dbTweets = await dbService.collection("tweets").get();
+dbTweets.forEach((document) => console.log(document.data()));
+```
+
 # React-dom-router
 - **Redirect**
-- **useHistory**
+- **useHistory**s
 ```
 const history = useHistory();
 history.push("/");
