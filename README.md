@@ -1,14 +1,20 @@
-Tweet with firebase
+# Tweet using firebase
+Realtime upload, update and delete adding a photo using firebase database and storage
 
----
+
 
 # Set up
 - **.env**: to hide the key from Github
 - **jsconfig.json**: to set non-relative path
-- npm i react-route-dom
+- **react-route-dom**:  npm i react-route-dom
+- **uuid**: npm i uuid
+```
+import { v4 as uuidv4 } from "uuid";
+```
+
 
 # Firebase
-## firebase.auth()
+## 1. firebase.auth()
 
 - [onAuthStateChanged()](https://firebase.google.com/docs/auth/web/manage-users?authuser=1)
 
@@ -27,25 +33,37 @@ let provider = new firebase.auth.GoogleAuthProvider();
 firebase.auth().signInWithPopup(provider)
 ```
 
-- firebase.collection("collection").get()
+## 2. firebase.firestore()
+- firebase.collection("collection").**get**()
 This get retuen **QuerySnapShot** which has docs, empty, metadata, query, size as properties.
 For method, it has docChanges, forEach, isEqual.
 ```
-const dbTweets = await dbService.collection("tweets").get();
+const dbTweets = await firebase.firestore.collection("tweets").get();
 dbTweets.forEach((document) => console.log(document.data()));
 ```
 
-- firebase.collection("collection").onSnapshot((snapshot => {( ... )}))
+- firebase.collection("collection").**onSnapshot**((snapshot => {( ... )}))
 Used this under *useEffect*
 ```
-dbService.collection("tweets").onSnapshot((snapshot) => {
-  const tweetArray = snapshot.docs.map((doc) => ({
+firebase.firestore.collection("collection").onSnapshot((snapshot) => {
+  const dataArray = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-setTweets(tweetArray);
+setData(dataArray);
 ```
 
+- firebase.firestore.doc(`collection/${object.id}`).delete()
+- firebase.firestore.doc(`collection/${object.id}`).update({ content: newContent })
+
+## 3. firebase.storage()
+- [firebase.storage.ref()](https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=1)
+- Reference
+   - putString
+   - getDownloadURL
+   - refFromURL
+
+---
 
 # React-dom-router
 - **Redirect**
@@ -54,3 +72,18 @@ setTweets(tweetArray);
 const history = useHistory();
 history.push("/");
 ```
+
+
+---
+
+# Get files
+```
+const {
+  target: { files },
+} = event;
+const theFile = files[0];
+const reader = new FileReader();
+reader.readAsDataURL(theFile);
+```
+
+# FileReader API
