@@ -5,9 +5,11 @@ import { useHistory } from 'react-router-dom';
 const Profile = ({ userObj, updateUser }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+
   const onSignOutClick = () => {
     authService.signOut();
     history.push("/");
+    updateUser();
   };
   // const getMyTweets = async () => {
   //   const tweets = await dbService.collection("tweets")
@@ -18,7 +20,6 @@ const Profile = ({ userObj, updateUser }) => {
   // useEffect(() => {
   //   getMyTweets();
   // }, []);
-  
   const onChange = (event) => {
     const {
       target: { value },
@@ -31,7 +32,8 @@ const Profile = ({ userObj, updateUser }) => {
       await userObj.updateProfile({ displayName: newDisplayName })
     };
     updateUser();
-  }
+  };
+  
   return (
     <>
       <form onSubmit={onSubmit}>
