@@ -1,17 +1,19 @@
 # Tweet using firebase
 Realtime upload, update and delete adding a photo using firebase database and storage
 
-
+---
 
 # Set up
 - **.env**: to hide the key from Github
 - **jsconfig.json**: to set non-relative path
 - **react-route-dom**:  npm i react-route-dom
+- **FileReader API**
 - **uuid**: npm i uuid
 ```
 import { v4 as uuidv4 } from "uuid";
 ```
 
+---
 
 # Firebase
 ## 1. firebase.auth()
@@ -63,7 +65,14 @@ setData(dataArray);
    - getDownloadURL
    - refFromURL
 
+## 4. firebase.user
+- [firebase.user](https://firebase.google.com/docs/reference/js/firebase.User?authuser=1)
+
+
+
 ---
+
+
 
 # React-dom-router
 - **Redirect**
@@ -77,6 +86,7 @@ history.push("/");
 ---
 
 # Get files
+- FileReader API
 ```
 const {
   target: { files },
@@ -86,4 +96,4 @@ const reader = new FileReader();
 reader.readAsDataURL(theFile);
 ```
 
-# FileReader API
+

@@ -8,15 +8,31 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setUserObj(user);
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
       }
       setInit(true);
     });
   }, []);
+  const updateUser = () => {
+    // setUserObj(authService.currentUser); // Doesn't re-render
+    
+    const user = authService.currentUser;
+    // setUserObj(Object.assign({}, user)); // Object.assign() needs Target and Source
+    
+    setUserObj({
+      displayName: user.displayName,
+      uid: user.uid,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  }
   return (
     <>
       {init ? (
-        <AppRouter isSignedIn={Boolean(userObj)} userObj={userObj} />
+        <AppRouter isSignedIn={Boolean(userObj)} userObj={userObj} updateUser={updateUser} />
       ) : (
         "Initializing..." 
       )}
